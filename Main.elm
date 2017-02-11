@@ -6,13 +6,13 @@
 
 module Main exposing (..)
 
-import Html.App as App
 import Html exposing (..)
 import Html.Attributes exposing (href, class, style)
 import Material
 import Material.Scheme
 import Material.Button as Button
 import Material.Options exposing (css)
+import Material.Options as Options
 import Material.Layout as Layout
 import Material.Color as Color
 
@@ -68,8 +68,8 @@ update msg model =
             )
 
         -- Boilerplate: Mdl action handler.
-        Mdl msg' ->
-            Material.update msg' model
+        Mdl msg_ ->
+            Material.update Mdl msg_ model
 
         SelectTab num ->
             { model | selectedTab = num } ! []
@@ -138,14 +138,14 @@ viewCounter model =
         , Button.render Mdl
             [ 0 ]
             model.mdl
-            [ Button.onClick Increase
+            [ Options.onClick Increase
             , css "margin" "0 24px"
             ]
             [ text "Increase" ]
         , Button.render Mdl
             [ 1 ]
             model.mdl
-            [ Button.onClick Reset ]
+            [ Options.onClick Reset ]
             [ text "Reset" ]
         ]
 
@@ -156,9 +156,9 @@ viewCounter model =
 -- for the `Material` module for details.
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
-    App.program
+    Html.program
         { init = ( model, Cmd.none )
         , view = view
         , subscriptions = always Sub.none
